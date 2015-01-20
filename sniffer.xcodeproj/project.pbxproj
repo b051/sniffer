@@ -14,6 +14,9 @@
 		CF2E930B1A6E1E960057F54B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2E930A1A6E1E960057F54B /* Images.xcassets */; };
 		CF2E930E1A6E1E960057F54B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2E930C1A6E1E960057F54B /* LaunchScreen.xib */; };
 		CF2E931A1A6E1E960057F54B /* snifferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93191A6E1E960057F54B /* snifferTests.m */; };
+		CF2E93251A6E1EA80057F54B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */; };
+		CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93271A6E1EB10057F54B /* SimplePing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,12 @@
 		CF2E93131A6E1E960057F54B /* snifferTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = snifferTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2E93181A6E1E960057F54B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF2E93191A6E1E960057F54B /* snifferTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = snifferTests.m; sourceTree = "<group>"; };
+		CF2E93231A6E1EA80057F54B /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		CF2E93261A6E1EB10057F54B /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		CF2E93271A6E1EB10057F54B /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNetwork.h; sourceTree = "<group>"; };
+		CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNetwork.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +92,12 @@
 			children = (
 				CF2E93011A6E1E960057F54B /* AppDelegate.h */,
 				CF2E93021A6E1E960057F54B /* AppDelegate.m */,
+				CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */,
+				CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */,
+				CF2E93231A6E1EA80057F54B /* GCDAsyncSocket.h */,
+				CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */,
+				CF2E93261A6E1EB10057F54B /* SimplePing.h */,
+				CF2E93271A6E1EB10057F54B /* SimplePing.m */,
 				CF2E93041A6E1E960057F54B /* ViewController.h */,
 				CF2E93051A6E1E960057F54B /* ViewController.m */,
 				CF2E93071A6E1E960057F54B /* Main.storyboard */,
@@ -219,8 +234,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF2E93251A6E1EA80057F54B /* GCDAsyncSocket.m in Sources */,
+				CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */,
 				CF2E93061A6E1E960057F54B /* ViewController.m in Sources */,
 				CF2E93031A6E1E960057F54B /* AppDelegate.m in Sources */,
+				CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */,
 				CF2E93001A6E1E960057F54B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

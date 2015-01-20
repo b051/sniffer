@@ -7,21 +7,47 @@
 //
 
 #import "ViewController.h"
+#import "LocalNetwork.h"
 
-@interface ViewController ()
+@interface ViewController () <LocalNetworkDelegate>
 
 @end
 
 @implementation ViewController
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+{
+	LocalNetwork *network;
+	NSArray *ips;
 }
 
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	network = [LocalNetwork new];
+	network.delegate = self;
+	[network scanDevices];
+}
+
+- (void)localNetworkDidFinish
+{
+	NSLog(@"no more devices.");
+	NSString *ip = network.localDevices.lastObject;
+	NSLog(@"detecting ports on %@", ip);
+	[network portsScan:ip];
+}
+
+- (void)localNetworkDidFindDevice:(NSString *)ip
+{
+	NSLog(@"found device at %@", ip);
+}
+
+- (void)localNetworkDidFindDevice:(NSString *)ip port:(int16_t)port
+{
+	NSLog(@"found port %d", port);
+}
+
+- (void)localNetworkDidFinishPortScan
+{
+	NSLog(@"no more ports");
 }
 
 @end
