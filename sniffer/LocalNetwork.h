@@ -18,8 +18,10 @@
 @end
 
 @interface LocalNetwork : NSObject
+
 @property (nonatomic, weak) id<LocalNetworkDelegate> delegate;
 @property (nonatomic, strong, readonly) NSArray *localDevices;
 - (void)scanDevices;
 - (void)portsScan:(NSString *)ip;
+
 @end

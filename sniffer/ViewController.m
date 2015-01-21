@@ -9,15 +9,26 @@
 #import "ViewController.h"
 #import "LocalNetwork.h"
 
-@interface ViewController () <LocalNetworkDelegate>
+@interface ViewController () <LocalNetworkDelegate, NSNetServiceBrowserDelegate>
 
 @end
 
 @implementation ViewController
 {
 	LocalNetwork *network;
-	NSArray *ips;
 }
+//NSString * runCommand(NSString* c) {
+//	
+//	NSString* outP; FILE *read_fp;  char buffer[BUFSIZ + 1];
+//	int chars_read; memset(buffer, '\0', sizeof(buffer));
+//	read_fp = popen(c.UTF8String, "r");
+//	if (read_fp != NULL) {
+//		chars_read = fread(buffer, sizeof(char), BUFSIZ, read_fp);
+//		if (chars_read > 0) outP = [NSString stringWithUTF8String:buffer];
+//		pclose(read_fp);
+//	}
+//	return outP;
+//}
 
 - (void)viewDidLoad
 {
@@ -25,8 +36,15 @@
 	network = [LocalNetwork new];
 	network.delegate = self;
 	[network scanDevices];
+//	NSLog(@"%@", runCommand(@"ls -la /"));
 }
 
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing
+{
+	NSLog(@"%@", domainString);
+}
+
+#pragma mark - LocalNetworkDelegate
 - (void)localNetworkDidFinish
 {
 	NSLog(@"no more devices.");

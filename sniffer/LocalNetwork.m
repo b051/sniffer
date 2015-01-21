@@ -11,6 +11,7 @@
 #import <arpa/inet.h>
 #include <netdb.h>
 #import "SimplePing.h"
+#import "SimpleMacAddress.h"
 #import "GCDAsyncSocket.h"
 
 @interface LocalNetwork () <SimplePingDelegate, GCDAsyncSocketDelegate>
@@ -48,9 +49,9 @@
 	if (success == 0) {
 		temp_addr = interfaces;
 		
-		while(temp_addr != NULL) {
+		while (temp_addr != NULL) {
 			// check if interface is en0 which is the wifi connection on the iPhone
-			if(temp_addr->ifa_addr->sa_family == AF_INET) {
+			if (temp_addr->ifa_addr->sa_family == AF_INET) {
 				if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
 					local_addr = (((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr).s_addr;
 					mask = (((struct sockaddr_in *)temp_addr->ifa_netmask)->sin_addr).s_addr;
@@ -113,6 +114,9 @@
 - (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
 {
 	[_localDevices addObject:pinger.hostName];
+	const struct sockaddr_in *address = [pinger.hostAddress bytes];
+	
+	NSLog(@"%@ MAC %@", pinger.hostName, [SimpleMacAddress ip2mac:address->sin_addr.s_addr]);
 	[self.delegate localNetworkDidFindDevice:pinger.hostName];
 }
 
@@ -127,7 +131,7 @@
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		ports = [NSMutableIndexSet indexSet];
-		[ports addIndexesInRange:NSMakeRange(0, 1024)];
+		[ports addIndexesInRange:NSMakeRange(0, 65536)];
 	});
 	
 	[ports enumerateIndexesUsingBlock:^(NSUInteger port, BOOL *stop) {
@@ -145,9 +149,11 @@
 
 - (void)removeSocket:(GCDAsyncSocket *)socket
 {
-	[sockets removeObject:socket];
-	if (!sockets.count) {
-		[self.delegate localNetworkDidFinishPortScan];
+	if ([sockets indexOfObject:socket] != NSNotFound) {
+		[sockets removeObject:socket];
+		if (!sockets.count) {
+			[self.delegate localNetworkDidFinishPortScan];
+		}
 	}
 }
 
