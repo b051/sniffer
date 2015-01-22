@@ -24,4 +24,6 @@
 - (void)scanDevices;
 - (void)portsScan:(NSString *)ip;
 
++ (NSString *)readableIPv4Address:(in_addr_t)address;
+
 @end

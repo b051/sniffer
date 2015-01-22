@@ -55,7 +55,6 @@
 
 - (void)localNetworkDidFindDevice:(NSString *)ip
 {
-	NSLog(@"found device at %@", ip);
 }
 
 - (void)localNetworkDidFindDevice:(NSString *)ip port:(int16_t)port

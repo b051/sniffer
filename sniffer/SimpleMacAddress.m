@@ -7,44 +7,16 @@
 //
 
 #import "SimpleMacAddress.h"
-#include <sys/param.h>
-#include <sys/file.h>
-#include <sys/socket.h>
 #include <sys/sysctl.h>
-
-#include <net/if.h>
 #include <net/if_dl.h>
-#include "if_types.h"
 #include "route.h"
 #include "if_ether.h"
-#include <netinet/in.h>
-
-
-#include <arpa/inet.h>
-
 #include <err.h>
-#include <errno.h>
-#include <netdb.h>
-
-#include <paths.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 @implementation SimpleMacAddress
 
 + (NSString *)ip2mac:(in_addr_t)addr
 {
-	NSString *ret = nil;
-	
-	size_t needed;
-	char *buf, *next;
-	
-	struct rt_msghdr *rtm;
-	struct sockaddr_inarp *sin;
-	struct sockaddr_dl *sdl;
-	
 	int mib[6];
 	
 	mib[0] = CTL_NET;
@@ -53,6 +25,9 @@
 	mib[3] = AF_INET;
 	mib[4] = NET_RT_FLAGS;
 	mib[5] = RTF_LLINFO;
+	
+	char *buf;
+	size_t needed;
 	
 	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), NULL, &needed, NULL, 0) < 0)
 		err(1, "route-sysctl-estimate");
@@ -63,12 +38,17 @@
 	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), buf, &needed, NULL, 0) < 0)
 		err(1, "retrieval of routing table");
 	
+	NSString *ret = nil;
+	char *next;
+	
+	struct rt_msghdr *rtm;
+	struct sockaddr_inarp *sin;
+	struct sockaddr_dl *sdl;
 	for (next = buf; next < buf + needed; next += rtm->rtm_msglen) {
 		
 		rtm = (struct rt_msghdr *)next;
 		sin = (struct sockaddr_inarp *)(rtm + 1);
 		sdl = (struct sockaddr_dl *)(sin + 1);
-		
 		if (addr != sin->sin_addr.s_addr || sdl->sdl_alen < 6)
 			continue;
 		
@@ -81,7 +61,6 @@
 	}
 	
 	free(buf);
-	
 	return ret;
 }
 

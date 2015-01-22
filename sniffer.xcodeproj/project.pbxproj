@@ -17,7 +17,9 @@
 		CF2E93251A6E1EA80057F54B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */; };
 		CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93271A6E1EB10057F54B /* SimplePing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */; };
+		CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */; };
 		CF6C86661A6F8EB6002409F0 /* SimpleMacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */; };
+		CF6C866E1A6FA2DD002409F0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,11 +52,13 @@
 		CF2E93271A6E1EB10057F54B /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNetwork.h; sourceTree = "<group>"; };
 		CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNetwork.m; sourceTree = "<group>"; };
+		CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSLookup.h; sourceTree = "<group>"; };
+		CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSLookup.m; sourceTree = "<group>"; };
 		CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMacAddress.h; sourceTree = "<group>"; };
 		CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMacAddress.m; sourceTree = "<group>"; };
 		CF6C866A1A6F91D9002409F0 /* if_ether.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = if_ether.h; sourceTree = "<group>"; };
 		CF6C866B1A6F91D9002409F0 /* route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
-		CF6C866C1A6F91D9002409F0 /* if_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = if_types.h; sourceTree = "<group>"; };
+		CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF6C866E1A6FA2DD002409F0 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 		CF2E92F11A6E1E960057F54B = {
 			isa = PBXGroup;
 			children = (
+				CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */,
 				CF2E92FC1A6E1E960057F54B /* sniffer */,
 				CF2E93161A6E1E960057F54B /* snifferTests */,
 				CF2E92FB1A6E1E960057F54B /* Products */,
@@ -106,9 +112,10 @@
 				CF2E93271A6E1EB10057F54B /* SimplePing.m */,
 				CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */,
 				CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */,
+				CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */,
+				CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */,
 				CF6C866A1A6F91D9002409F0 /* if_ether.h */,
 				CF6C866B1A6F91D9002409F0 /* route.h */,
-				CF6C866C1A6F91D9002409F0 /* if_types.h */,
 				CF2E93041A6E1E960057F54B /* ViewController.h */,
 				CF2E93051A6E1E960057F54B /* ViewController.m */,
 				CF2E93071A6E1E960057F54B /* Main.storyboard */,
@@ -250,6 +257,7 @@
 				CF2E93061A6E1E960057F54B /* ViewController.m in Sources */,
 				CF2E93031A6E1E960057F54B /* AppDelegate.m in Sources */,
 				CF6C86661A6F8EB6002409F0 /* SimpleMacAddress.m in Sources */,
+				CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */,
 				CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */,
 				CF2E93001A6E1E960057F54B /* main.m in Sources */,
 			);
