@@ -17,6 +17,7 @@
 
 @interface LocalDevice : NSObject
 
+@property (nonatomic) in_addr_t local_addr;
 @property (nonatomic, strong) NSString *ipv4;
 @property (nonatomic, strong) NSString *ipv6;
 @property (nonatomic, strong) NSString *macAddress;

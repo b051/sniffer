@@ -7,6 +7,9 @@
 //
 
 #import "LocalNetwork.h"
+#if TARGET_OS_EMBEDDED || TARGET_IPHONE_SIMULATOR
+#import <UIKit/UIKit.h>
+#endif
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #include <netdb.h>
@@ -45,10 +48,10 @@
 	const struct sockaddr *address = [addressData bytes];
 	if (address->sa_family == AF_INET) {
 		in_addr_t addr = (((struct sockaddr_in *)address)->sin_addr).s_addr;
-		NSString *ipv4 = [LocalNetwork readableIPv4Address:addr];
 		for (LocalDevice *device in self.localDevices) {
-			if ([device.ipv4 isEqualToString:ipv4])
+			if (device.local_addr == addr) {
 				return device;
+			}
 		}
 	}
 	return nil;
@@ -142,7 +145,13 @@
 	device.addressv4 = pinger.hostAddress;
 	[_localDevices addObject:device];
 	const struct sockaddr_in *address = [pinger.hostAddress bytes];
-	device.macAddress = [SimpleMacAddress ip2mac:address->sin_addr.s_addr];
+	device.local_addr = address->sin_addr.s_addr;
+#if TARGET_OS_EMBEDDED || TARGET_IPHONE_SIMULATOR
+	if (local_addr == device.local_addr) {
+		device.name = [UIDevice currentDevice].name;
+	}
+#endif
+	device.macAddress = [SimpleMacAddress ip2mac:device.local_addr];
 	[self.delegate localNetworkDidFindDevice:pinger.hostName];
 }
 
