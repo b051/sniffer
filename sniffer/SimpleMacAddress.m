@@ -7,16 +7,20 @@
 //
 
 #import "SimpleMacAddress.h"
+#if !TARGET_IPHONE_SIMULATOR
 #include <sys/sysctl.h>
 #include <net/if_dl.h>
 #include "route.h"
 #include "if_ether.h"
 #include <err.h>
+#endif
 
 @implementation SimpleMacAddress
 
 + (NSString *)ip2mac:(in_addr_t)addr
 {
+	NSString *ret = nil;
+#if !TARGET_IPHONE_SIMULATOR
 	int mib[6];
 	
 	mib[0] = CTL_NET;
@@ -38,7 +42,6 @@
 	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), buf, &needed, NULL, 0) < 0)
 		err(1, "retrieval of routing table");
 	
-	NSString *ret = nil;
 	char *next;
 	
 	struct rt_msghdr *rtm;
@@ -61,6 +64,7 @@
 	}
 	
 	free(buf);
+#endif
 	return ret;
 }
 
