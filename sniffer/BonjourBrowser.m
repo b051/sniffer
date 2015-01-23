@@ -23,10 +23,12 @@
 	browsers = [NSMutableArray array];
 	services = [NSMutableArray array];
 	//https://developer.apple.com/library/mac/qa/qa1312/_index.html
-	for (NSString *name in @[@"music", @"acp-sync", @"adisk", @"dlna", @"airplay", @"airkan", @"airport", @"appletv-v2",
+	NSArray *smallset = @[@"whats-my-name", @"airport", @"airplay", @"raop", @"smb", @"http", @"ssh", @"ipp", @"eppc", @"afpovertcp"];
+	__unused NSArray *largeset = @[@"music", @"acp-sync", @"adisk", @"dlna", @"airplay", @"airkan", @"airport", @"appletv-v2",
 							 @"home-sharing", @"icloud-ds", @"sleep-proxy", @"printer", @"workstation", @"nfs", @"webdav", @"whats-my-name", @"raop",
 							 @"afpovertcp", @"eppc", @"rfb", @"smb", @"sftp-ssh", @"ssh", @"https", @"rdp", @"webdavs",
-							 @"rc", @"http", @"rfb", @"beo-settings", @"daap", @"dpap", @"ipp", @"telnet"]) {
+							 @"rc", @"http", @"rfb", @"beo-settings", @"daap", @"dpap", @"ipp", @"telnet"];
+	for (NSString *name in smallset) {
 		NSNetServiceBrowser *browser = [NSNetServiceBrowser new];
 		browser.delegate = self;
 		[browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._tcp.", name] inDomain:@"local."];
