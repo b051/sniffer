@@ -28,10 +28,9 @@
 - (NSString *)description
 {
 	NSMutableString *string = [NSMutableString stringWithString:@"device: "];
-	if (self.name) {
-		[string appendString:self.name];
-	}
-	else if (self.hostName) {
+	[string appendString:self.name ?: @"(n/a)"];
+	[string appendString:@"\n"];
+	if (self.hostName) {
 		[string appendString:self.hostName];
 	}
 	else {
@@ -41,7 +40,7 @@
 	if (self.macAddress) {
 		[string appendFormat:@"(%@)", self.macAddress];
 	}
-	[string appendString:@" ipv4: "];
+	[string appendString:@"\nipv4: "];
 	[string appendString:self.ipv4];
 	if (self.ipv6) {
 		[string appendFormat:@", ipv6: %@", self.ipv6];
