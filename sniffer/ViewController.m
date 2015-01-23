@@ -8,8 +8,6 @@
 
 #import "ViewController.h"
 #import "LocalNetwork.h"
-#import "DNSLookup.h"
-#import "GCDAsyncSocket.h"
 
 @interface ViewController () <LocalNetworkDelegate, NSNetServiceDelegate>
 
@@ -26,8 +24,6 @@
 	network = [LocalNetwork new];
 	network.delegate = self;
 	[network scanDevices];
-	DNSLookup *l = [DNSLookup new];
-	NSLog(@"host name: %@", [l hostnamesForAddress:[l convertAddress:@"10.0.1.6"]]);
 }
 
 #pragma mark - LocalNetworkDelegate
