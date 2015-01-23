@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "LocalNetwork.h"
+#import "Manufacturer.h"
 
 @interface ViewController () <LocalNetworkDelegate, NSNetServiceDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -21,8 +22,7 @@
 
 - (void)viewDidLoad
 {
-	[super viewDidLoad];
-	
+	[super viewDidLoad];	
 	tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
 	tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	[self.view addSubview:tableView];
@@ -42,10 +42,13 @@
 		NSLog(@"%@", device);
 	}
 	[tableView reloadData];
-}
-
-- (void)localNetworkDidFindDevice:(NSString *)ip
-{
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		for (id device in network.localDevices) {
+			NSLog(@"%@", device);
+		}
+		[tableView reloadData];
+	});
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

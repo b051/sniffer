@@ -20,6 +20,8 @@
 		CF2EB1B31A71E93700DBF706 /* LocalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2EB1B21A71E93700DBF706 /* LocalDevice.m */; };
 		CF2EB1B61A71ED4500DBF706 /* BonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */; };
 		CF37361D1A70F2D10016D639 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF37361C1A70F2D10016D639 /* CFNetwork.framework */; };
+		CF59E6D61A72488700362599 /* Manufacturer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF59E6D51A72488700362599 /* Manufacturer.m */; };
+		CF59E6D81A724DB000362599 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF59E6D71A724DB000362599 /* oui.txt */; };
 		CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */; };
 		CF6C86661A6F8EB6002409F0 /* SimpleMacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,9 @@
 		CF2EB1B41A71ED4500DBF706 /* BonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonjourBrowser.h; sourceTree = "<group>"; };
 		CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonjourBrowser.m; sourceTree = "<group>"; };
 		CF37361C1A70F2D10016D639 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		CF59E6D41A72488700362599 /* Manufacturer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manufacturer.h; sourceTree = "<group>"; };
+		CF59E6D51A72488700362599 /* Manufacturer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manufacturer.m; sourceTree = "<group>"; };
+		CF59E6D71A724DB000362599 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
 		CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSLookup.h; sourceTree = "<group>"; };
 		CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSLookup.m; sourceTree = "<group>"; };
 		CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMacAddress.h; sourceTree = "<group>"; };
@@ -108,11 +113,14 @@
 		CF2E92FC1A6E1E960057F54B /* sniffer */ = {
 			isa = PBXGroup;
 			children = (
+				CF59E6D71A724DB000362599 /* oui.txt */,
 				CF2E93011A6E1E960057F54B /* AppDelegate.h */,
 				CF2E93021A6E1E960057F54B /* AppDelegate.m */,
 				CF2EB1B41A71ED4500DBF706 /* BonjourBrowser.h */,
 				CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */,
 				CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */,
+				CF59E6D41A72488700362599 /* Manufacturer.h */,
+				CF59E6D51A72488700362599 /* Manufacturer.m */,
 				CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */,
 				CF2E93231A6E1EA80057F54B /* GCDAsyncSocket.h */,
 				CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */,
@@ -244,6 +252,7 @@
 			files = (
 				CF2E93091A6E1E960057F54B /* Main.storyboard in Resources */,
 				CF2E930E1A6E1E960057F54B /* LaunchScreen.xib in Resources */,
+				CF59E6D81A724DB000362599 /* oui.txt in Resources */,
 				CF2E930B1A6E1E960057F54B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,6 +276,7 @@
 				CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */,
 				CF2E93061A6E1E960057F54B /* ViewController.m in Sources */,
 				CF2E93031A6E1E960057F54B /* AppDelegate.m in Sources */,
+				CF59E6D61A72488700362599 /* Manufacturer.m in Sources */,
 				CF6C86661A6F8EB6002409F0 /* SimpleMacAddress.m in Sources */,
 				CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */,
 				CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */,

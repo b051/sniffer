@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSString *hostName;
 @property (nonatomic, strong) NSData *addressv4;
 @property (nonatomic, strong) NSData *addressv6;
+@property (nonatomic, strong) NSString *manufacturer;
 @property (nonatomic, strong) NSMutableDictionary *ports;
 @property (nonatomic, weak) id<LocalDeviceDelegate> delegate;
 

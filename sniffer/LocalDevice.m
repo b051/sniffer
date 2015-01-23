@@ -8,6 +8,8 @@
 
 #import "LocalDevice.h"
 #import "GCDAsyncSocket.h"
+#import "Manufacturer.h"
+#import "SimpleMacAddress.h"
 
 @interface LocalDevice () <GCDAsyncSocketDelegate>
 @end
@@ -48,6 +50,9 @@
 	if (self.ports) {
 		[string appendFormat:@" ports: %@", self.ports];
 	}
+	if (self.manufacturer) {
+		[string appendFormat:@"\n%@", self.manufacturer];
+	}
 	return string;
 }
 
@@ -69,6 +74,28 @@
 		[asyncSocket connectToHost:self.ipv4 onPort:port withTimeout:1 error:nil];
 		[sockets addObject:asyncSocket];
 	}];
+}
+
+- (void)setLocal_addr:(in_addr_t)local_addr
+{
+	_local_addr = local_addr;
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSString *macAddress = [SimpleMacAddress ip2mac:local_addr];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.macAddress = macAddress;
+		});
+	});
+}
+
+- (void)setMacAddress:(NSString *)macAddress
+{
+	_macAddress = macAddress;
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		NSString *manufacturer = [Manufacturer mac2manufacturer:macAddress];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.manufacturer = manufacturer;
+		});
+	});
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port

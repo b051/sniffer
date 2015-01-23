@@ -14,7 +14,6 @@
 #import <arpa/inet.h>
 #include <netdb.h>
 #import "SimplePing.h"
-#import "SimpleMacAddress.h"
 #import "GCDAsyncSocket.h"
 #import "BonjourBrowser.h"
 #import "LocalDevice.h"
@@ -151,13 +150,14 @@
 		device.name = [UIDevice currentDevice].name;
 	}
 #endif
-	device.macAddress = [SimpleMacAddress ip2mac:device.local_addr];
-	[self.delegate localNetworkDidFindDevice:pinger.hostName];
+	if ([self.delegate respondsToSelector:@selector(localNetworkDidFindDevice:)])
+		[self.delegate localNetworkDidFindDevice:pinger.hostName];
 }
 
 - (void)bonjourBrowserDidFinish
 {
-	[self.delegate localNetworkDidFinish];
+	if ([self.delegate respondsToSelector:@selector(localNetworkDidFinish)])
+		[self.delegate localNetworkDidFinish];
 }
 
 - (void)bonjourBrowserDidFindService:(NSNetService *)service

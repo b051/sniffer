@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class LocalDevice;
 @protocol LocalNetworkDelegate <NSObject>
-
+@optional
 - (void)localNetworkDidFindDevice:(NSString *)ip;
 - (void)localNetworkDidFinish;
 
