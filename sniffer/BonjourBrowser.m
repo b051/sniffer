@@ -25,39 +25,34 @@
 	//https://developer.apple.com/library/mac/qa/qa1312/_index.html
 	NSArray *smallset = @[@"whats-my-name", @"airport", @"airplay", @"raop", @"smb", @"http", @"ssh", @"ipp", @"eppc", @"afpovertcp"];
 	__unused NSArray *largeset = @[@"music", @"acp-sync", @"adisk", @"dlna", @"airplay", @"airkan", @"airport", @"appletv-v2",
-							 @"home-sharing", @"icloud-ds", @"sleep-proxy", @"printer", @"workstation", @"nfs", @"webdav", @"whats-my-name", @"raop",
-							 @"afpovertcp", @"eppc", @"rfb", @"smb", @"sftp-ssh", @"ssh", @"https", @"rdp", @"webdavs",
-							 @"rc", @"http", @"rfb", @"beo-settings", @"daap", @"dpap", @"ipp", @"telnet"];
+								   @"home-sharing", @"icloud-ds", @"sleep-proxy", @"printer", @"workstation", @"nfs", @"webdav", @"whats-my-name", @"raop",
+								   @"afpovertcp", @"eppc", @"rfb", @"smb", @"sftp-ssh", @"ssh", @"https", @"rdp", @"webdavs",
+								   @"rc", @"http", @"rfb", @"daap", @"dpap", @"ipp", @"telnet"];
 	for (NSString *name in smallset) {
 		NSNetServiceBrowser *browser = [NSNetServiceBrowser new];
 		browser.delegate = self;
 		[browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._tcp.", name] inDomain:@"local."];
 		[browsers addObject:browser];
 	}
-	NSNetServiceBrowser *b3 = [NSNetServiceBrowser new];
-	b3.delegate = self;
-	[b3 searchForBrowsableDomains];
-	[browsers addObject:b3];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		for (NSNetServiceBrowser *browser in [browsers copy]) {
+			[browser stop];
+			[browsers removeObject:browser];
+		}
+	});
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didNotSearch:(NSDictionary *)errorDict
 {
-	NSLog(@"find domain %@", domainString);
-	if (!moreComing) {
-		[browsers removeObject:aNetServiceBrowser];
-	}
+	NSLog(@"%@", errorDict);
 }
 
-/* Sent to the NSNetServiceBrowser instance's delegate for each service discovered. If there are more services, moreComing will be YES. If for some reason handling discovered services requires significant processing, accumulating services until moreComing is NO and then doing the processing in bulk fashion may be desirable.
- */
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
 	aNetService.delegate = self;
-	[aNetService resolveWithTimeout:5];
+	[aNetService resolveWithTimeout:15];
 	[services addObject:aNetService];
-	if (!moreComing) {
-		[browsers removeObject:aNetServiceBrowser];
-	}
+	NSLog(@"resolving %@ on %@ ..", aNetService.type, aNetService.name);
 }
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict

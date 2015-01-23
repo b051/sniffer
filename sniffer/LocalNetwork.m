@@ -128,6 +128,7 @@
 {
 	[pingers removeObject:pinger];
 	if (!pingers.count) {
+		NSLog(@"%@", [self.localDevices valueForKey:@"ipv4"]);
 		browser = [BonjourBrowser new];
 		browser.delegate = self;
 		[browser start];
@@ -181,7 +182,7 @@
 		}
 	}
 	else {
-		NSLog(@"missing service %@", service);
+		NSLog(@"missing service %@ address %@", service, service.addresses);
 	}
 	[device addService:service.type port:service.port];
 }
