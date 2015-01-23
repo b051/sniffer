@@ -8,8 +8,10 @@
 
 #import "ViewController.h"
 #import "LocalNetwork.h"
+#import "DNSLookup.h"
+#import "GCDAsyncSocket.h"
 
-@interface ViewController () <LocalNetworkDelegate, NSNetServiceBrowserDelegate>
+@interface ViewController () <LocalNetworkDelegate, NSNetServiceDelegate>
 
 @end
 
@@ -17,18 +19,6 @@
 {
 	LocalNetwork *network;
 }
-//NSString * runCommand(NSString* c) {
-//	
-//	NSString* outP; FILE *read_fp;  char buffer[BUFSIZ + 1];
-//	int chars_read; memset(buffer, '\0', sizeof(buffer));
-//	read_fp = popen(c.UTF8String, "r");
-//	if (read_fp != NULL) {
-//		chars_read = fread(buffer, sizeof(char), BUFSIZ, read_fp);
-//		if (chars_read > 0) outP = [NSString stringWithUTF8String:buffer];
-//		pclose(read_fp);
-//	}
-//	return outP;
-//}
 
 - (void)viewDidLoad
 {
@@ -36,35 +26,20 @@
 	network = [LocalNetwork new];
 	network.delegate = self;
 	[network scanDevices];
-//	NSLog(@"%@", runCommand(@"ls -la /"));
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing
-{
-	NSLog(@"%@", domainString);
+	DNSLookup *l = [DNSLookup new];
+	NSLog(@"host name: %@", [l hostnamesForAddress:[l convertAddress:@"10.0.1.6"]]);
 }
 
 #pragma mark - LocalNetworkDelegate
 - (void)localNetworkDidFinish
 {
-	NSLog(@"no more devices.");
-	NSString *ip = network.localDevices.lastObject;
-	NSLog(@"detecting ports on %@", ip);
-	[network portsScan:ip];
+	for (id device in network.localDevices) {
+		NSLog(@"%@", device);
+	}
 }
 
 - (void)localNetworkDidFindDevice:(NSString *)ip
 {
-}
-
-- (void)localNetworkDidFindDevice:(NSString *)ip port:(int16_t)port
-{
-	NSLog(@"found port %d", port);
-}
-
-- (void)localNetworkDidFinishPortScan
-{
-	NSLog(@"no more ports");
 }
 
 @end

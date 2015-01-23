@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+// http://serverfault.com/questions/53576/windows-computer-name-ip-resolution-on-iphone
 @interface DNSLookup : NSObject
-
+- (NSArray *)hostnamesForAddress:(NSData *)address;
+- (NSData *)convertAddress:(NSString *)ip;
 @end

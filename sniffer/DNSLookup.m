@@ -18,40 +18,57 @@
 
 void HostResolveCallback(CFHostRef theHost, CFHostInfoType typeInfo, const CFStreamError *error, void *info) {
 	DNSLookup *self = (__bridge DNSLookup *)info;
-	NSLog(@"%@",@"!");
+	if (error != NULL && error->domain != 0) {
+		NSLog(@"CFStreamError domain = %ld",  error->domain);
+	}
 	self->done = true;
 }
 
-- (NSArray *)hostnamesForAddress:(NSString *)address
+- (NSData *)convertAddress:(NSString *)ip
 {
 	// Get the host reference for the given address.
 	struct addrinfo      hints;
 	struct addrinfo      *result = NULL;
 	memset(&hints, 0, sizeof(hints));
-	hints.ai_flags    = AI_NUMERICHOST;
-	hints.ai_family   = PF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags    = AI_NUMERICHOST | AI_NUMERICSERV;
+//	hints.ai_family   = PF_UNSPEC;
+//	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = 0;
-	int errorStatus = getaddrinfo([address cStringUsingEncoding:NSASCIIStringEncoding], NULL, &hints, &result);
+	int errorStatus = getaddrinfo([ip cStringUsingEncoding:NSASCIIStringEncoding], NULL, &hints, &result);
 	if (errorStatus != 0) return nil;
-	CFDataRef addressRef = CFDataCreate(NULL, (UInt8 *)result->ai_addr, result->ai_addrlen);
+	CFDataRef addressRef = CFDataCreate(CFAllocatorGetDefault(), (UInt8 *)result->ai_addr, result->ai_addrlen);
 	if (addressRef == nil) return nil;
 	freeaddrinfo(result);
-	CFHostRef hostRef = CFHostCreateWithAddress(kCFAllocatorDefault, addressRef);
-	if (hostRef == nil) return nil;
+
+	NSData *data = [(__bridge NSData *)addressRef copy];
 	CFRelease(addressRef);
-	CFHostClientContext ctx = {.info = (__bridge void*)self};
-	CFHostSetClient(hostRef, HostResolveCallback, &ctx);
+	return data;
+}
+
+- (NSArray *)hostnamesForAddress:(NSData *)address
+{
+	Boolean success;
+	CFStreamError streamError;
+	CFHostRef hostRef = CFHostCreateWithAddress(CFAllocatorGetDefault(), (__bridge CFDataRef)address);
+	if (hostRef == nil) return nil;
+	CFHostClientContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
+	CFHostSetClient(hostRef, HostResolveCallback, &context);
 	CFHostScheduleWithRunLoop(hostRef, CFRunLoopGetCurrent(), CFSTR("DNSResolverRunLoopMode"));
-	BOOL isSuccess = CFHostStartInfoResolution(hostRef, kCFHostNames, NULL);
-	if (!isSuccess) return nil;
+	success = CFHostStartInfoResolution(hostRef, kCFHostNames, &streamError);
+	if (!success) {
+		return nil;
+	}
 	while (!done) {
 		CFRunLoopRunInMode(CFSTR("DNSResolverRunLoopMode"), 0.05, true);
 	}
 	// Get the hostnames for the host reference.
 	CFArrayRef hostnamesRef = CFHostGetNames(hostRef, NULL);
-	NSArray *hosts = [(__bridge NSArray *)hostnamesRef copy];
-	return hosts;
+	NSMutableArray *hostnames = [NSMutableArray array];
+	for (int currentIndex = 0; currentIndex < [(__bridge NSArray *)hostnamesRef count]; currentIndex++) {
+		[hostnames addObject:[(__bridge NSArray *)hostnamesRef objectAtIndex:currentIndex]];
+	}
+	CFHostUnscheduleFromRunLoop(hostRef, CFRunLoopGetCurrent(), CFSTR("DNSResolverRunLoopMode"));
+	return hostnames;
 }
 
 @end

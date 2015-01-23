@@ -17,9 +17,11 @@
 		CF2E93251A6E1EA80057F54B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */; };
 		CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E93271A6E1EB10057F54B /* SimplePing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */; };
+		CF2EB1B31A71E93700DBF706 /* LocalDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2EB1B21A71E93700DBF706 /* LocalDevice.m */; };
+		CF2EB1B61A71ED4500DBF706 /* BonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */; };
+		CF37361D1A70F2D10016D639 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF37361C1A70F2D10016D639 /* CFNetwork.framework */; };
 		CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */; };
 		CF6C86661A6F8EB6002409F0 /* SimpleMacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */; };
-		CF6C866E1A6FA2DD002409F0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,13 +54,17 @@
 		CF2E93271A6E1EB10057F54B /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNetwork.h; sourceTree = "<group>"; };
 		CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalNetwork.m; sourceTree = "<group>"; };
+		CF2EB1B11A71E93700DBF706 /* LocalDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDevice.h; sourceTree = "<group>"; };
+		CF2EB1B21A71E93700DBF706 /* LocalDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDevice.m; sourceTree = "<group>"; };
+		CF2EB1B41A71ED4500DBF706 /* BonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonjourBrowser.h; sourceTree = "<group>"; };
+		CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonjourBrowser.m; sourceTree = "<group>"; };
+		CF37361C1A70F2D10016D639 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSLookup.h; sourceTree = "<group>"; };
 		CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSLookup.m; sourceTree = "<group>"; };
 		CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMacAddress.h; sourceTree = "<group>"; };
 		CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMacAddress.m; sourceTree = "<group>"; };
 		CF6C866A1A6F91D9002409F0 /* if_ether.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = if_ether.h; sourceTree = "<group>"; };
 		CF6C866B1A6F91D9002409F0 /* route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
-		CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF6C866E1A6FA2DD002409F0 /* CFNetwork.framework in Frameworks */,
+				CF37361D1A70F2D10016D639 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +89,7 @@
 		CF2E92F11A6E1E960057F54B = {
 			isa = PBXGroup;
 			children = (
-				CF6C866D1A6FA2DD002409F0 /* CFNetwork.framework */,
+				CF37361C1A70F2D10016D639 /* CFNetwork.framework */,
 				CF2E92FC1A6E1E960057F54B /* sniffer */,
 				CF2E93161A6E1E960057F54B /* snifferTests */,
 				CF2E92FB1A6E1E960057F54B /* Products */,
@@ -104,24 +110,28 @@
 			children = (
 				CF2E93011A6E1E960057F54B /* AppDelegate.h */,
 				CF2E93021A6E1E960057F54B /* AppDelegate.m */,
-				CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */,
-				CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */,
-				CF2E93231A6E1EA80057F54B /* GCDAsyncSocket.h */,
-				CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */,
-				CF2E93261A6E1EB10057F54B /* SimplePing.h */,
-				CF2E93271A6E1EB10057F54B /* SimplePing.m */,
-				CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */,
-				CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */,
+				CF2EB1B41A71ED4500DBF706 /* BonjourBrowser.h */,
+				CF2EB1B51A71ED4500DBF706 /* BonjourBrowser.m */,
 				CF67E4D91A708FDB00C2ED09 /* DNSLookup.h */,
 				CF67E4DA1A708FDB00C2ED09 /* DNSLookup.m */,
+				CF2E93231A6E1EA80057F54B /* GCDAsyncSocket.h */,
+				CF2E93241A6E1EA80057F54B /* GCDAsyncSocket.m */,
 				CF6C866A1A6F91D9002409F0 /* if_ether.h */,
-				CF6C866B1A6F91D9002409F0 /* route.h */,
-				CF2E93041A6E1E960057F54B /* ViewController.h */,
-				CF2E93051A6E1E960057F54B /* ViewController.m */,
-				CF2E93071A6E1E960057F54B /* Main.storyboard */,
 				CF2E930A1A6E1E960057F54B /* Images.xcassets */,
 				CF2E930C1A6E1E960057F54B /* LaunchScreen.xib */,
+				CF2EB1B11A71E93700DBF706 /* LocalDevice.h */,
+				CF2EB1B21A71E93700DBF706 /* LocalDevice.m */,
+				CF2E932C1A6E1F4A0057F54B /* LocalNetwork.h */,
+				CF2E932D1A6E1F4A0057F54B /* LocalNetwork.m */,
+				CF2E93071A6E1E960057F54B /* Main.storyboard */,
+				CF6C866B1A6F91D9002409F0 /* route.h */,
+				CF6C86641A6F8EB6002409F0 /* SimpleMacAddress.h */,
+				CF6C86651A6F8EB6002409F0 /* SimpleMacAddress.m */,
+				CF2E93261A6E1EB10057F54B /* SimplePing.h */,
+				CF2E93271A6E1EB10057F54B /* SimplePing.m */,
 				CF2E92FD1A6E1E960057F54B /* Supporting Files */,
+				CF2E93041A6E1E960057F54B /* ViewController.h */,
+				CF2E93051A6E1E960057F54B /* ViewController.m */,
 			);
 			path = sniffer;
 			sourceTree = "<group>";
@@ -252,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF2EB1B61A71ED4500DBF706 /* BonjourBrowser.m in Sources */,
 				CF2E93251A6E1EA80057F54B /* GCDAsyncSocket.m in Sources */,
 				CF2E932E1A6E1F4A0057F54B /* LocalNetwork.m in Sources */,
 				CF2E93061A6E1E960057F54B /* ViewController.m in Sources */,
@@ -260,6 +271,7 @@
 				CF67E4DB1A708FDB00C2ED09 /* DNSLookup.m in Sources */,
 				CF2E93281A6E1EB10057F54B /* SimplePing.m in Sources */,
 				CF2E93001A6E1E960057F54B /* main.m in Sources */,
+				CF2EB1B31A71E93700DBF706 /* LocalDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

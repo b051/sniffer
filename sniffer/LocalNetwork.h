@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class LocalDevice;
 @protocol LocalNetworkDelegate <NSObject>
 
 - (void)localNetworkDidFindDevice:(NSString *)ip;
-- (void)localNetworkDidFindDevice:(NSString *)ip port:(int16_t)port;
 - (void)localNetworkDidFinish;
-- (void)localNetworkDidFinishPortScan;
 
 @end
 
@@ -22,7 +20,6 @@
 @property (nonatomic, weak) id<LocalNetworkDelegate> delegate;
 @property (nonatomic, strong, readonly) NSArray *localDevices;
 - (void)scanDevices;
-- (void)portsScan:(NSString *)ip;
 
 + (NSString *)readableIPv4Address:(in_addr_t)address;
 

@@ -13,8 +13,10 @@
 #import "SimplePing.h"
 #import "SimpleMacAddress.h"
 #import "GCDAsyncSocket.h"
+#import "BonjourBrowser.h"
+#import "LocalDevice.h"
 
-@interface LocalNetwork () <SimplePingDelegate, GCDAsyncSocketDelegate>
+@interface LocalNetwork () <SimplePingDelegate, GCDAsyncSocketDelegate, BonjourBrowserDelegate>
 @property (nonatomic, strong, readwrite) NSMutableArray *localDevices;
 @end
 
@@ -24,6 +26,7 @@
 	NSMutableArray *sockets;
 	NSMutableArray *pingers;
 	NSMutableArray *_localDevices;
+	BonjourBrowser *browser;
 }
 
 @synthesize localDevices = _localDevices;
@@ -35,6 +38,20 @@
 	unsigned int c = (address & 0x0000FF00) >> 8;
 	unsigned int d = address & 0x000000FF;
 	return [NSString stringWithFormat:@"%d.%d.%d.%d", d, c, b, a];
+}
+
+- (LocalDevice *)deviceByAddress:(NSData *)addressData
+{
+	const struct sockaddr *address = [addressData bytes];
+	if (address->sa_family == AF_INET) {
+		in_addr_t addr = (((struct sockaddr_in *)address)->sin_addr).s_addr;
+		NSString *ipv4 = [LocalNetwork readableIPv4Address:addr];
+		for (LocalDevice *device in self.localDevices) {
+			if ([device.ipv4 isEqualToString:ipv4])
+				return device;
+		}
+	}
+	return nil;
 }
 
 - (void)detectIPv4Address
@@ -107,71 +124,62 @@
 {
 	[pingers removeObject:pinger];
 	if (!pingers.count) {
-		[self.delegate localNetworkDidFinish];
+		browser = [BonjourBrowser new];
+		browser.delegate = self;
+		[browser start];
 	}
 }
 
 - (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
 {
-	[_localDevices addObject:pinger.hostName];
+	LocalDevice *device = [LocalDevice new];
+	device.ipv4 = pinger.hostName;
+	device.addressv4 = pinger.hostAddress;
+	[_localDevices addObject:device];
 	const struct sockaddr_in *address = [pinger.hostAddress bytes];
-	
-	NSLog(@"%@ MAC %@", pinger.hostName, [SimpleMacAddress ip2mac:address->sin_addr.s_addr]);
+	device.macAddress = [SimpleMacAddress ip2mac:address->sin_addr.s_addr];
 	[self.delegate localNetworkDidFindDevice:pinger.hostName];
 }
 
-- (void)portsScan:(NSString *)ip
+- (void)bonjourBrowserDidFinish
 {
-	sockets = [NSMutableArray array];
-	
-	dispatch_queue_t mainQueue = dispatch_get_main_queue();
-	
-	GCDAsyncSocket *asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:mainQueue];
-	static NSMutableIndexSet *ports;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		ports = [NSMutableIndexSet indexSet];
-		[ports addIndexesInRange:NSMakeRange(0, 65536)];
-	});
-	
-	[ports enumerateIndexesUsingBlock:^(NSUInteger port, BOOL *stop) {
-		[asyncSocket connectToHost:ip onPort:port withTimeout:1 error:nil];
-		[sockets addObject:asyncSocket];
-	}];
+	[self.delegate localNetworkDidFinish];
 }
 
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
+- (void)bonjourBrowserDidFindService:(NSNetService *)service
 {
-	NSLog(@"%@:%d ok!", host, port);
-	[sock disconnect];
-	[self.delegate localNetworkDidFindDevice:host port:port];
-}
-
-- (void)removeSocket:(GCDAsyncSocket *)socket
-{
-	if ([sockets indexOfObject:socket] != NSNotFound) {
-		[sockets removeObject:socket];
-		if (!sockets.count) {
-			[self.delegate localNetworkDidFinishPortScan];
+	LocalDevice *device;
+	for (NSData *addressData in service.addresses) {
+		if (device) {
+			device.addressv6 = addressData;
+		}
+		if (!device) {
+			device = [self deviceByAddress:addressData];
 		}
 	}
-}
-
-- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutReadWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
-{
-	[self removeSocket:sock];
-	return 0;
-}
-
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
-{
-	[self removeSocket:sock];
-}
-
-- (NSTimeInterval)socket:(GCDAsyncSocket *)sock shouldTimeoutWriteWithTag:(long)tag elapsed:(NSTimeInterval)elapsed bytesDone:(NSUInteger)length
-{
-	[self removeSocket:sock];
-	return 0;
+	static NSArray *servicesPredictableForName;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		servicesPredictableForName = @[@"_sftp-ssh._tcp.", @"_airplay._tcp.", @"_airport._tcp.", @"_whats-my-name._tcp.", @"_ssh._tcp.", @"_smb._tcp.", @"_afpovertcp._tcp.", @"_adisk._tcp."];
+	});
+	if (device) {
+		if (!device.name || [servicesPredictableForName containsObject:service.type]) {
+			device.name = service.name;
+			if ([service.type isEqualToString:@"_raop._tcp."]) {
+				NSInteger index = [device.name rangeOfString:@"@"].location;
+				if (index != NSNotFound) {
+					device.name = [device.name substringFromIndex:index + 1];
+				}
+			}
+		}
+		if (!device.hostName) {
+			device.hostName = service.hostName;
+		}
+	}
+	else {
+		NSLog(@"missing service %@", service);
+	}
+	[device addService:service.type port:service.port];
 }
 
 @end
